@@ -1,7 +1,6 @@
 {
     "name": "marisabols/processkernel",
     "description": "Handle process execution in more advanced way than cron.",
-    "type": "project",
     "minimum-stability": "dev",
     "require": {
         "php": ">=5.3.0",
