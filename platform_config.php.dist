@@ -1,0 +1,49 @@
+<?php
+
+//////////////////////////////////////////////
+// Constants - keep this part AS IS
+//////////////////////////////////////////////
+// LOG LEVELS
+define('LOG_SWITCHED_OFF', 0);
+define('LOG_DIRECT_OUTPUT', 1);
+define('LOG_WRITE_FILE', 2);
+define('LOG_WRITE_DB', 3);
+
+//////////////////////////////////////////////
+// Platform-specific part - adapt this to your platform
+//////////////////////////////////////////////
+// Database config.
+define('KERNEL_DB_USER', 'root');
+define('KERNEL_DB_PASSWORD', 'root');
+define('KERNEL_DB_DBNAME', 'bitkernel');
+define('KERNEL_DB_HOST', '127.0.0.1');
+define('KERNEL_DB_PORT', 3306);
+
+// Kernel config.
+define('PROC_ROOT', "/vagrant/public/libraries/bitkernel/");
+define('PROC_ROOT_CALLABLE', "/vagrant/public/bots/bitkernel/");
+
+// Parallel kernel process config.
+define('PROC_EXECUTABLE', "php");
+define('PROC_MAX_PROCESSES', 100); // for every proxy url
+define('PROC_MAX_EXECUTION_TIME', 40);
+define('PROC_SCRIPT_NAME', 'bitkernel.php');
+define('PROC_SCRIPT_TIME_MAX_COUNT', 10); // What amount of script times to store.
+define('PROC_MAX_CPU_USAGE', -1); // If -1 no checking of cpu limit check.
+define('PROC_MAX_MEM_USAGE', -1); // If -1 no checking of mem limit check.
+
+// Logging config.
+define('LOG_DIRECTORY', '/var/log/');
+define('LOG_LEVEL', LOG_DIRECT_OUTPUT); // 1 - direct output(echo), 2 - write into file, 3 - write into DB.
+define('LOG_FILENAME', 'system_notices');
+define('ERROR_LOG_FILENAME', 'system_errors');
+
+// MQTT protocol config.
+define('MQTT_HOST', "0.0.0.0");
+define('MQTT_PORT', "1883");
+define('MQTT_KEEPALIVE', "60");
+define('MQTT_RECONNECT_DELAY', "10");
+define('MQTT_KERNEL_TOPIC', "/kernel/command/");
+
+// Timezone config.
+date_default_timezone_set('Europe/Riga');

@@ -3,7 +3,7 @@
 // Handles Database connection
 // Requires platform_config.php file to be accessible in the same direction
 
-namespace ProcessKernel\DbHandler
+namespace ProcessKernel;
 
 use Medoo\Medoo;
 
