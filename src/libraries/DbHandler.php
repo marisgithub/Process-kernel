@@ -26,9 +26,10 @@ class DbHandler {
     if (!self::$kernel_instance) {
       // Lazy init of the handler
       if (!defined("KERNEL_DB_USER")) {
-        SystemService::logError("Platform config must define KERNEL_DB_USER and other constants!");
-        SystemService::logError("Could not initialize DbHandler");
-        return null;
+        throw new Exception("Platform config must define KERNEL_DB_USER and other constants!");
+        //SystemService::logError("Platform config must define KERNEL_DB_USER and other constants!");
+        //SystemService::logError("Could not initialize DbHandler");
+        //return null;
       }
       self::$kernel_instance = self::createDbHandler(KERNEL_DB_DBNAME, KERNEL_DB_USER,
         KERNEL_DB_PASSWORD, KERNEL_DB_HOST, KERNEL_DB_PORT);
@@ -69,8 +70,10 @@ class DbHandler {
       $h = new DbHandler($db_name, $db_user, $db_passw, $db_host, $db_port);
       return $h;
     } catch (\PDOException $ex) {
-      SystemService::logError("Could not create DB connection: " . $ex->getMessage());
-      return false;
+      throw new Exception("Could not create DB connection: " . $ex->getMessage());
+
+      //SystemService::logError("Could not create DB connection: " . $ex->getMessage());
+      //return false;
     }
   }
 

@@ -4,6 +4,7 @@ namespace ProcessKernel;
 
 use ProcessKernel\System;
 use ProcessKernel\DbHandler;
+use Process\emptyClass;
 
 define('KERNEL_VERSION', "1.2");
 
