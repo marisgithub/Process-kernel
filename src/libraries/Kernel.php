@@ -4,7 +4,6 @@ namespace ProcessKernel;
 
 use ProcessKernel\System;
 use ProcessKernel\DbHandler;
-use Process\emptyClass;
 
 define('KERNEL_VERSION', "1.2");
 
@@ -12,7 +11,7 @@ define('KERNEL_VERSION', "1.2");
  * This is main class to do all stuff
  */
 class Kernel extends System {
-  const PROCESS_CLASS_PREFIX = "\\bitkernel\\processes\\";
+  const PROCESS_CLASS_PREFIX = "Process\\";
   
   /**
    * This is for identify system info DB table.
