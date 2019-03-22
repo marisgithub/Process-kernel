@@ -11,6 +11,9 @@ define('KERNEL_VERSION', "1.2");
  * This is main class to do all stuff
  */
 class Kernel extends System {
+  /**
+   * Namespace for build in processes.
+   */
   const PROCESS_CLASS_PREFIX = "Process\\";
   
   /**
@@ -51,6 +54,11 @@ class Kernel extends System {
   public $kernel_started           = 0;
 
   /**
+   * @var string - define namespace where process classes are located.
+   */
+  public $process_namespace        = "Moon\\Process\\"; //self::PROCESS_CLASS_PREFIX;
+
+  /**
    * Function to do all inits.
    */
   private function init() {
@@ -80,7 +88,25 @@ class Kernel extends System {
       unset($this->mqtt);
     }
   }
-  
+
+  /**
+   * Function to set custom namespace.
+   *
+   * @param $process_namespace - namespace for custom proceses.
+   */
+  function setProcessNamespace($process_namespace) {
+    $this->process_namespace = $process_namespace;
+  }
+
+  /**
+   * Function to get custom namespace.
+   *
+   * @return string - namespace for custom proceses.
+   */
+  function getProcessNamespace() {
+    return $this->process_namespace;
+  }
+
   /**
    * 
    */
@@ -932,7 +958,7 @@ class Kernel extends System {
    */
   private function reloadClassDefinition($script_classname) {
     $filename = $this->getClassRootPath($script_classname);
-    
+
     $contents = "";
     $handle = fopen($filename, "r");
     if ($handle) {
@@ -952,7 +978,7 @@ class Kernel extends System {
         
         $process_class_instance = self::$scripts_classes[$script_classname];
         
-        $new_class_name_full = self::PROCESS_CLASS_PREFIX . $new_class_name;
+        $new_class_name_full = self::getProcessNamespace() . $new_class_name;
         $process_class_instance_temp = new $new_class_name_full();
         $new_object_vars = get_object_vars($process_class_instance_temp);
         
@@ -1080,9 +1106,9 @@ class Kernel extends System {
               }
 
               continue;
-            }  
+            }
             
-            $script_classname_full = self::PROCESS_CLASS_PREFIX . $script_classname;
+            $script_classname_full = self::getProcessNamespace() . $script_classname;
             $process_class_instance = new $script_classname_full();
 
             // Load only initial process class info.
@@ -1090,11 +1116,11 @@ class Kernel extends System {
               $object_vars = get_object_vars($process_class_instance);
               $this->scripts_info[$script_classname] = $object_vars;
               
-              echo serialize($object_vars);
+              //echo serialize($object_vars);
               
               // Set class instance to static array.
               self::$scripts_classes[$script_classname] = $process_class_instance;
-              
+
               // Load class file and re-define all class variables.
               $this->reloadClassDefinition($script_classname);
             } else {
@@ -1207,7 +1233,7 @@ class Kernel extends System {
         if ($processesRunning < PROC_MAX_PROCESSES) {
           $params = [];
           
-          $script_classname_full = self::PROCESS_CLASS_PREFIX . $script_classname;
+          $script_classname_full = self::getProcessNamespace() . $script_classname;
           if (class_exists($script_classname_full)) {
             $newProcess = new $script_classname_full();
             
