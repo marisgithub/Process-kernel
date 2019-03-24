@@ -1,5 +1,4 @@
 
-#!/usr/local/bin/php
 <?php
 //
 // This script is made only for one purpose - to get rocket to the Mars!
