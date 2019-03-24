@@ -3,9 +3,9 @@
 
 use ProcessKernel\System;
 
-require 'vendor/autoload.php';
-require 'platform_config.php';
-
+chdir(__DIR__); // Make sure we are in the script dir
+require '../../vendor/autoload.php';
+require_once("../../platform_config.php");
 //
 // Script to communitate with Bit Kernel.
 //

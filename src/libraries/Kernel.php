@@ -73,10 +73,15 @@ class Kernel extends System {
    * 
    * @param type $need_output
    */
-  function __construct($need_output = true) {    
+  function __construct($need_output = true, $process_namespace = "") {
     // Function for special cases when kernel need to use in silent mode.
     $this->switchOutput($need_output);
-    
+
+    // Set custom process namespace.
+    if (!empty($process_namespace)) {
+      $this->setProcessNamespace($process_namespace);
+    }
+
     $this->init();
   }
   
@@ -978,7 +983,7 @@ class Kernel extends System {
         
         $process_class_instance = self::$scripts_classes[$script_classname];
         
-        $new_class_name_full = self::getProcessNamespace() . $new_class_name;
+        $new_class_name_full = $this->getProcessNamespace() . $new_class_name;
         $process_class_instance_temp = new $new_class_name_full();
         $new_object_vars = get_object_vars($process_class_instance_temp);
         
@@ -1108,7 +1113,7 @@ class Kernel extends System {
               continue;
             }
             
-            $script_classname_full = self::getProcessNamespace() . $script_classname;
+            $script_classname_full = $this->getProcessNamespace() . $script_classname;
             $process_class_instance = new $script_classname_full();
 
             // Load only initial process class info.
@@ -1233,10 +1238,10 @@ class Kernel extends System {
         if ($processesRunning < PROC_MAX_PROCESSES) {
           $params = [];
           
-          $script_classname_full = self::getProcessNamespace() . $script_classname;
+          $script_classname_full = $this->getProcessNamespace() . $script_classname;
           if (class_exists($script_classname_full)) {
             $newProcess = new $script_classname_full();
-            
+
             // Function to set process internal variables from process definition.
             $this->readClassDefinition($newProcess, $script_classname);
           } else {
@@ -1245,7 +1250,7 @@ class Kernel extends System {
             
             $newProcess = $this->setVirtualProcessInstance($script_classname, $script_info); 
             
-            //print_r($script_info);
+            print_r($script_info);
           }
           
           if (!is_object($newProcess)) {
